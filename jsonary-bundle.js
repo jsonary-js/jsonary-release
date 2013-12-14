@@ -30,8 +30,8 @@ function JsonaryBundle(startingPoint) {
 	this.addPath(pathModule.join(__dirname, 'plugins'));
 	this.addPath('.');
 	
-	this.writeJs = function (filename, minified) {
-		var compiledJs = bundle.compileJs(filename, minified);
+	this.writeJs = function (filename, minified, includeCss) {
+		var compiledJs = bundle.compileJs(filename, minified, includeCss);
 		this.instance = function () {
 			var Jsonary = compiledJs()['Jsonary'];
 			modifyJsonaryForServer.apply(Jsonary, arguments);
@@ -460,5 +460,18 @@ module.exports.fresh = function () {
 	return new JsonaryBundle();
 };
 module.exports.superBundle = function () {
-	return new JsonaryBundle('../super-bundle/jsonary-super-bundle.js');
+	return new JsonaryBundle()
+		.add('jsonary.location.js')
+		.add('../plugins/jsonary.route.js')
+		.add('../plugins/jsonary.popup.js')
+		.add('../plugins/jsonary.undo.js')
+		.add('../plugins/jsonary.jstl.js')
+		.add('../plugins/jsonary.render.table')
+		.add('../plugins/jsonary.render.generate.js')
+
+		.add('../renderers/full-preview')
+		.add('../renderers/full-instances')
+		.add('../renderers/adaptive-table')
+		.add('../renderers/tag-list')
+		.add('../renderers/image-picker');
 };
