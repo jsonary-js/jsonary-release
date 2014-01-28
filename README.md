@@ -1,5 +1,8 @@
-# Jsonary on Node.js
+# Jsonary releases
 
+Documentation is still being written - refer to the [dev repo](https://github.com/jsonary-js/jsonary) for more detail.
+
+<!-- 
 **WARNING: rendering functionality is rather limited at the moment**
 
 This package makes the [Jsonary](https://github.com/geraintluff/jsonary) library available on Node.js.
@@ -64,3 +67,4 @@ loginLink.createSubmissionData(function (loginData) {
 	loginLink.follow(loginData, false).getData(...);
 });
 ```
+-->
