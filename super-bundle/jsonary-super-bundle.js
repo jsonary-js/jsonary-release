@@ -1,10 +1,10 @@
-/* Bundled on 2013-12-14 */
+/* Bundled on 2014-07-15 */
 (function() {
 
 
 /**** jsonary-core.js ****/
 
-	/* Bundled on 2013-12-14 */
+	/* Bundled on 2014-07-15 */
 	(function() {
 	/* Copyright (C) 2012-2013 Geraint Luff
 	
@@ -2264,6 +2264,7 @@
 				var remainder = headers["content-type"].substring(contentType.length + 1);
 				while (remainder.length > 0) {
 					remainder = remainder.replace(/^,\s*/, '');
+					remainder = remainder.replace(/^;\s*/, '');
 					var partName = remainder.split("=", 1)[0];
 					remainder = remainder.substring(partName.length + 1).trim();
 					partName = partName.trim();
@@ -2280,7 +2281,7 @@
 							contentTypeParameters[partName] = partValue;
 						}
 					} else {
-						partValue = /^[^,]*/.exec(remainder)[0];
+						partValue = /^[^,;]*/.exec(remainder)[0];
 						remainder = remainder.substring(partValue.length).trim();
 						contentTypeParameters[partName] = partValue;
 					}
