@@ -1,4 +1,4 @@
-/* Bundled on 2014-07-15 */
+/* Bundled on 2014-10-07 */
 (function() {
 /* Copyright (C) 2012-2013 Geraint Luff
 
@@ -6163,6 +6163,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				callback = tmp;
 			}
 			if (typeof origValue !== 'undefined' && !Array.isArray(origValue)) {
+				if (callback) callback(undefined);
 				return undefined;
 			}
 			var thisSchemaSet = this;
@@ -6249,6 +6250,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				callback = tmp;
 			}
 			if (typeof origValue !== 'undefined' && (typeof origValue !== 'object' || Array.isArray(origValue))) {
+				if (callback) callback(undefined);
 				return undefined;
 			}
 			var thisSchemaSet = this;

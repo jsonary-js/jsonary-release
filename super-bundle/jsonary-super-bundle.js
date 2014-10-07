@@ -1,10 +1,10 @@
-/* Bundled on 2014-07-15 */
+/* Bundled on 2014-10-07 */
 (function() {
 
 
 /**** jsonary-core.js ****/
 
-	/* Bundled on 2014-07-15 */
+	/* Bundled on 2014-10-07 */
 	(function() {
 	/* Copyright (C) 2012-2013 Geraint Luff
 	
@@ -6169,6 +6169,7 @@
 					callback = tmp;
 				}
 				if (typeof origValue !== 'undefined' && !Array.isArray(origValue)) {
+					if (callback) callback(undefined);
 					return undefined;
 				}
 				var thisSchemaSet = this;
@@ -6255,6 +6256,7 @@
 					callback = tmp;
 				}
 				if (typeof origValue !== 'undefined' && (typeof origValue !== 'object' || Array.isArray(origValue))) {
+					if (callback) callback(undefined);
 					return undefined;
 				}
 				var thisSchemaSet = this;
@@ -11617,7 +11619,7 @@
 						return this.serverSide.action.apply(this, arguments);
 					}
 					return true;
-				} else if (actionName == "move-select") {
+				} else if (actionName == "move-start") {
 					var index = arg1;
 					context.uiState.moveRow = index;
 					return true;
@@ -12004,14 +12006,14 @@
 				var basicTypes = schemas.basicTypes();
 	
 				// If the data might not be an object, add a column for it
-				if (basicTypes.length != 1 || basicTypes[0] != "object" || depthRemaining <= 0) {
-					var column = pathPrefix;
+				if ((basicTypes.length != 1 || basicTypes[0] != "object" || depthRemaining <= 0) && !schemas.hidden()) {
+	                    var column = pathPrefix;
 					if (!columnsObj[column]) {
 						columnsObj[column] = true;
 						renderer.addColumn(column, schemas.title() || column, function (data, context) {
-							if (data.basicType() == "object" && depthRemaining > 0) {
-								return '<td></td>';
-							} else {
+							if (data.basicType() == "object" && depthRemaining < 0) {
+								return '<td class="jsonary-recursion-limit-reached">...</td>';
+	                        } else {
 								return this.defaultCellRenderHtml(data, context, column);
 							}
 						});
@@ -12057,7 +12059,9 @@
 					// Iterate over the potential properties
 					for (var i = 0; i < knownPropertyIndices.length; i++) {
 						var key = knownProperties[knownPropertyIndices[i]];
-						addColumnsFromSchemas(schemas.propertySchemas(key), pathPrefix + Jsonary.joinPointer([key]), depthRemaining - 1);
+	                    if (!schemas.propertySchemas(key).hidden()){
+	                        addColumnsFromSchemas(schemas.propertySchemas(key), pathPrefix + Jsonary.joinPointer([key]), depthRemaining - 1);
+	                    }
 					}
 				}
 			}
@@ -12140,6 +12144,23 @@
 			return displayAsTable;
 		}
 	});
+	
+	// hidden extension (non-standard keyword, suggested by Ognian)
+	Jsonary.extendSchema({
+	    hidden: function () {
+	        return !!this.data.propertyValue("hidden");
+	    }
+	});
+	Jsonary.extendSchemaList({
+	    hidden: function () {
+	        var hidden = false;
+	        this.each(function (index, schema) {
+	            hidden = hidden || schema.hidden();
+	        });
+	        return hidden;
+	    }
+	});
+	
 
 /**** tag-list.js ****/
 
