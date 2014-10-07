@@ -6249,7 +6249,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				origValue = callback;
 				callback = tmp;
 			}
-			if (typeof origValue !== 'undefined' && (typeof origValue !== 'object' || Array.isArray(origValue))) {
+			if (typeof origValue !== 'undefined' && (!origValue || typeof origValue !== 'object' || Array.isArray(origValue))) {
 				if (callback) callback(undefined);
 				return undefined;
 			}
