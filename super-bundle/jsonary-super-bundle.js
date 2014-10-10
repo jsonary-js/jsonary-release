@@ -1,10 +1,10 @@
-/* Bundled on 2014-10-07 */
+/* Bundled on 2014-10-10 */
 (function() {
 
 
 /**** jsonary-core.js ****/
 
-	/* Bundled on 2014-10-07 */
+	/* Bundled on 2014-10-10 */
 	(function() {
 	/* Copyright (C) 2012-2013 Geraint Luff
 	
